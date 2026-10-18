@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+*.log
+*.sqlite
+credentials*
+secrets*
+*.pem
+*.key
+.DS_Store
