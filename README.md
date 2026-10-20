@@ -59,6 +59,9 @@ Highlights appointment availability checking,
 business-hours restrictions, conflict detection,
 and conversational handling of unavailable slots.
 
+### Demo 4 — Appointment Booking and Automation
+[▶ Watch Demo 4 on Loom]()
+
 ## 📸 Vapi AI Receptionist — Live Test Screenshot
 
 
