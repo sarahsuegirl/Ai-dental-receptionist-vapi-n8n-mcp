@@ -23,11 +23,6 @@ The design uses **Vapi** as the conversational voice interface, an **n8n MCP Ser
 | Appointment validation | JavaScript checks ISO 8601 timestamps, future dates, 60-minute duration, weekdays, and start hours | Implemented in availability workflow |
 | Calendar availability | Query Google Calendar within an expanded time window and return `is busy` or `is available` | Implemented; requires further edge-case testing |
 | Appointment booking | Recheck availability, create a Google Calendar event, return event ID and times | Implemented; end-to-end reliability not yet established |
-## 🎥 Live AI Receptionist Demo
-
-Watch the AI Dental Receptionist interact with callers
-and automate appointment scheduling.
-
 
 ## 🎥 Live AI Receptionist Demonstrations
 
