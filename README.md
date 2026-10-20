@@ -23,7 +23,20 @@ The design uses **Vapi** as the conversational voice interface, an **n8n MCP Ser
 | Appointment validation | JavaScript checks ISO 8601 timestamps, future dates, 60-minute duration, weekdays, and start hours | Implemented in availability workflow |
 | Calendar availability | Query Google Calendar within an expanded time window and return `is busy` or `is available` | Implemented; requires further edge-case testing |
 | Appointment booking | Recheck availability, create a Google Calendar event, return event ID and times | Implemented; end-to-end reliability not yet established |
+## 🎥 Live AI Receptionist Demo
 
+Watch the AI Dental Receptionist interact with callers
+and automate appointment scheduling.
+
+[▶️ Watch Live Demo on Loom](https://www.loom.com/looms/videos)
+
+### Demonstrated Features
+- Natural voice conversations using Vapi
+- Patient lookup through n8n MCP tools
+- Appointment availability checks
+- Google Calendar appointment booking
+- Google Sheets CRM and appointment logging
+- Business-hours validation
 ## Architecture
 
 ```mermaid
