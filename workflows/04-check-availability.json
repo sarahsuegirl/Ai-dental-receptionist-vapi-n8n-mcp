@@ -1,0 +1,203 @@
+{
+  "name": "check availability",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n \n  \"after_time\": \"2026-10-20T13:00:00-04:00\",\n  \"before_time\": \"2026-10-20T14:00:00-04:00\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        -112
+      ],
+      "name": "When Executed by Another Workflow",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "demo@example.com",
+          "mode": "list",
+          "cachedResultName": "YOUR_CALENDAR"
+        },
+        "timeMin": "={{ DateTime.fromISO($json.buffer_start).setZone('America/New_York').toISO() }}",
+        "timeMax": "=\n{{ DateTime.fromISO($json.buffer_end).setZone('America/New_York').toISO() }}",
+        "options": {
+          "recurringEventHandling": "expand",
+          "timeZone": {
+            "__rl": true,
+            "value": "America/New_York",
+            "mode": "list",
+            "cachedResultName": "America/New_York"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        -112
+      ],
+      "name": "Get many events",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0e492df5-2675-4849-b95d-49273df86a89",
+              "leftValue": "={{ $('Get many events').all().filter(item => item.json && item.json.id).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        400,
+        -112
+      ],
+      "name": "If",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "executeOnce": true,
+      "notes": "the slot is busy"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99381440-dea4-4770-a8c6-7e086805fbcf",
+              "name": "status",
+              "value": "is busy",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -128
+      ],
+      "name": "Busy"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "29832e7d-3972-42d0-8923-e5340e69a93b",
+              "name": "status",
+              "value": "is available",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        656,
+        112
+      ],
+      "name": "Available",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\n\nconst items = $input.all();\n\nreturn items.map(item => {\n  const { after_time, before_time } = item.json;\n\n  // Require ISO 8601 timestamps with explicit timezone offsets\n  const isoPattern =\n    /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(?::\\d{2})?(?:Z|[+-]\\d{2}:\\d{2})$/;\n\n  if (\n    typeof after_time !== 'string' ||\n    typeof before_time !== 'string' ||\n    !isoPattern.test(after_time) ||\n    !isoPattern.test(before_time)\n  ) {\n    throw new Error(\n      'Invalid date format. Provide ISO 8601 start and end times with timezone offsets.'\n    );\n  }\n\n  const start = new Date(after_time);\n  const end = new Date(before_time);\n  const now = new Date();\n\n  if (\n    !Number.isFinite(start.getTime()) ||\n    !Number.isFinite(end.getTime())\n  ) {\n    throw new Error('Invalid appointment date.');\n  }\n\n  if (start <= now) {\n    throw new Error(\n      'The appointment must be scheduled in the future.'\n    );\n  }\n\n  if (end <= start) {\n    throw new Error(\n      'Appointment end time must be after start time.'\n    );\n  }\n\n  if (end.getTime() - start.getTime() !== 60 * 60 * 1000) {\n    throw new Error(\n      'Appointments must be exactly one hour long.'\n    );\n  }\n\n  // Use the clinic's local New York time\n  const local = new Intl.DateTimeFormat('en-US', {\n    timeZone: 'America/New_York',\n    weekday: 'short',\n    hour: '2-digit',\n    minute: '2-digit',\n    hourCycle: 'h23'\n  });\n\n  const parts = local.formatToParts(start);\n  const get = type => parts.find(p => p.type === type)?.value;\n\n  const weekday = get('weekday');\n  const hour = Number(get('hour'));\n  const minute = Number(get('minute'));\n\n  // Example business hours: Monday-Friday, 9 AM-5 PM\n  if (weekday === 'Sat' || weekday === 'Sun') {\n    throw new Error(\n      'Appointments are only available Monday through Friday.'\n    );\n  }\n\n  if (hour < 9 || hour > 16 || (hour === 16 && minute > 0)) {\n    throw new Error(\n      'Appointments must start between 9 AM and 4 PM New York time.'\n    );\n  }\n\n  \nreturn {\n  json: {\n    ...item.json,\n    validated_start: start.toISOString(),\n    validated_end: end.toISOString(),\n    buffer_start: new Date(\n      start.getTime() - 60 * 60 * 1000\n    ).toISOString(),\n    buffer_end: new Date(\n      end.getTime() + 60 * 60 * 1000\n    ).toISOString(),\n    validation_status: 'valid'\n  }\n};\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -112
+      ],
+      "name": "Code in JavaScript"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Busy",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Available",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

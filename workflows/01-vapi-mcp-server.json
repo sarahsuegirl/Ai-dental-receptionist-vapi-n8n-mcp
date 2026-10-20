@@ -1,0 +1,295 @@
+{
+  "name": "Vapi MCP Server",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "REPLACE_WITH_NEW_MCP_PATH"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -272
+      ],
+      "name": "MCP Server Trigger"
+    },
+    {
+      "parameters": {
+        "description": "call this tool to look up new client info in CRM",
+        "workflowId": {
+          "__rl": true,
+          "value": "REPLACE_LOOKUP_WORKFLOW_ID",
+          "mode": "list",
+          "cachedResultName": "n8n-vapi-lookup client"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        -144
+      ],
+      "name": "Call 'n8n-vapi-lookup client'"
+    },
+    {
+      "parameters": {
+        "description": "call this tool to add a new  new client in the CRM by adding a new row ",
+        "workflowId": {
+          "__rl": true,
+          "value": "REPLACE_CREATE_CLIENT_WORKFLOW_ID",
+          "mode": "list",
+          "cachedResultName": "n8n-vapi-create new client"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone number": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('phone_number', ``, 'number') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}",
+            "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('name', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        -96
+      ],
+      "name": "Call 'n8n-vapi-create new client'"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to book a calendar event for a client",
+        "workflowId": {
+          "__rl": true,
+          "value": "REPLACE_BOOKING_WORKFLOW_ID",
+          "mode": "list",
+          "cachedResultName": "Book an event"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start_Date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Date', ``, 'string') }}",
+            "End_Date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End_Date', ``, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', ``, 'string') }}",
+            "Event_Summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Event_Summary', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Start_Date",
+              "displayName": "Start_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "End_Date",
+              "displayName": "End_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Event_Summary",
+              "displayName": "Event_Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -112
+      ],
+      "name": "Call 'Book an event'"
+    },
+    {
+      "parameters": {
+        "description": "heck Google Calendar availability before offering or booking an appointment. Provide the requested appointment start and end times in ISO 8601 format with timezone offsets. Appointments last 60 minutes. This tool only checks availability; it does not create or update bookings. Never confirm a booking based solely on this tool's response.\n Copy description",
+        "workflowId": {
+          "__rl": true,
+          "value": "REPLACE_AVAILABILITY_WORKFLOW_ID",
+          "mode": "list",
+          "cachedResultName": "check availability"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "after_time": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('after_time', `Start of the requested appointment in ISO 8601 format with timezone offset. Example: 2026-10-20T14:00:00-04:00.`, 'string') }}",
+            "before_time": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('before_time', `End of the requested appointment in ISO 8601 format with timezone offset. For a one-hour appointment, exactly 60 minutes after after_time.`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "after_time",
+              "displayName": "after_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "before_time",
+              "displayName": "before_time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        -96
+      ],
+      "name": "Call 'check availability'"
+    }
+  ],
+  "connections": {
+    "Call 'n8n-vapi-lookup client'": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'n8n-vapi-create new client'": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Book an event'": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'check availability'": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}
