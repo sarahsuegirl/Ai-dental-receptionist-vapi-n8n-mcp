@@ -28,7 +28,59 @@ The design uses **Vapi** as the conversational voice interface, an **n8n MCP Ser
 Watch the AI Dental Receptionist interact with callers
 and automate appointment scheduling.
 
-[▶️ Watch Live Demo on Loom](https://www.loom.com/looms/videos)
+
+## 🎥 Live AI Receptionist Demonstrations
+
+This project includes four recorded demonstrations
+showcasing the AI Dental Receptionist built with
+Vapi, n8n, MCP, Google Calendar, and Google Sheets.
+
+The recordings illustrate conversational AI,
+workflow orchestration, and appointment management.
+
+### Demo 1 — AI Voice Receptionist in Action
+
+[▶ Watch Demo 1 on Loom](https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43)
+
+A live demonstration of Emma, the AI receptionist,
+interacting with a caller through natural voice
+conversation and responding to appointment-related
+requests.
+
+### Demo 2 — Patient Lookup and CRM Integration
+
+[▶ Watch Demo 2 on Loom](https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301)
+
+Demonstrates the intended integration between
+Vapi and n8n MCP tools for identifying patients
+and retrieving customer information from
+Google Sheets.
+
+### Demo 3 — Appointment Availability and Validation
+
+[▶ Watch Demo 3 on Loom](https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559)
+
+Highlights appointment availability checking,
+business-hours restrictions, conflict detection,
+and conversational handling of unavailable slots.
+
+## 📸 Vapi AI Receptionist — Live Test Screenshot
+
+
+The conversation demonstrates:
+- Recognition of an already-booked time
+- Sunday closure handling
+- Rejection of appointments before opening hours
+- Suggestions for alternative appointment times
+
+-Project walkthrough  https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43
+-Testing RAG system by Voice AI Receptionist  https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301
+-Testing overlap scheduling  https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559
+-Appointment Calendar Logging   https://www.loom.com/share/8344f1b3e26e45cfa45adcf1bfd1faa8
+
+**Technology Stack:** Vapi | n8n | MCP |
+JavaScript | Google Calendar | Google Sheets
+
 
 ### Demonstrated Features
 - Natural voice conversations using Vapi
