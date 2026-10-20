@@ -15,50 +15,34 @@ The exported workflows establish the integration design and specific automation 
 ```mermaid
 
 flowchart TD
-    A["Patient calls dental office"] --> B["Vapi Voice AI Assistant"]
-    B --> C["n8n MCP Server"]
-    C --> D["Lookup Patient Tool"]
-    D --> E["Google Sheets: Search Clients"]
-    E --> F{"Patient found?"}
-
-    F -->|No| G["Collect name, email, phone"]
-    G --> H["Create Client Tool"]
-    H --> I["Save patient in Google Sheets"]
-    I --> J["Request appointment date and time"]
-
-    F -->|Yes| J
-
-    J --> K["Check Availability Tool"]
-    K --> L["JavaScript: Validate appointment"]
-    L --> M{"Valid request?"}
-    M -->|No| N["Ask patient for valid time"]
-    N --> J
-    M -->|Yes| O["Google Calendar: Check conflicts"]
-    O --> P{"Slot available?"}
-
-    P -->|No| Q["Offer another appointment time"]
-    Q --> J
-    P -->|Yes| R["Patient agrees to book"]
-    R --> S["Book Appointment Tool"]
-    S --> T["Recheck availability"]
-    T --> U{"Still available?"}
-    U -->|No| Q
-    U -->|Yes| V["Google Calendar: Create event"]
-    V --> W{"Event created?"}
-    W -->|Yes| X["Return booking confirmation"]
-    W -->|No| Y["Report failure or escalate"]
-    X --> Z["Vapi confirms appointment to patient"]
-
-    classDef ai fill:#EDE7FF,stroke:#7C61D6,color:#30225B
-    classDef decision fill:#FFF0CF,stroke:#C58B22,color:#5E420C
-    classDef operation fill:#E4F2FF,stroke:#4286C6,color:#173C60
-    classDef success fill:#DFF5E9,stroke:#30966B,color:#19583E
-
-    class A,B,C,Z ai
-    class F,M,P,U,W decision
-    class D,E,G,H,I,J,K,L,N,O,Q,R,S,T,V,Y operation
-    class X success
-  
+ A[Patient calls] --> B[Vapi voice assistant]
+ B <--> C[n8n MCP Server Trigger]
+ C --> D[Lookup client]
+ D --> E[(Google Sheets: clients)]
+ E --> F{Patient found?}
+ F -->|No| G[Collect patient details]
+ G --> H[Create client]
+ H --> E
+ F -->|Yes| I[Request appointment]
+ H --> I
+ D -. Existing appointments .-> LOG[(Google Sheets: Appointment log)]
+ I --> J[Check availability]
+ J --> K[Validate and query Google Calendar]
+ K --> L{Available?}
+ L -->|No| M[Ask for another time]
+ M --> I
+ L -->|Yes| N[Book appointment]
+ N --> O[Recheck availability]
+ O --> P{Still available?}
+ P -->|No| M
+ P -->|Yes| Q[Google Calendar: Create event]
+ Q --> R[Google Sheets: Append appointment log]
+ R --> S[Return booking confirmation]
+ S --> C
+ C --> B
+ B --> T[Spoken confirmation]
+ classDef log fill:#E4F6E9,stroke:#31845A,color:#194F35
+ class LOG,R log
 ```
 
 The booking workflow calls the availability workflow **again** immediately before event creation. The standalone availability tool only checks a slot; it does not create a booking.
