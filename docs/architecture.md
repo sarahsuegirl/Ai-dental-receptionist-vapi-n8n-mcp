@@ -13,25 +13,52 @@ The exported workflows establish the integration design and specific automation 
 ## 2. Architecture diagram
 
 ```mermaid
+
 flowchart TD
-    A[Caller] --> B[Vapi voice AI assistant]
-    B --> C[n8n MCP Server Trigger]
-    C --> D[Client lookup workflow]
-    C --> E[Create client workflow]
-    C --> F[Check availability workflow]
-    C --> G[Book appointment workflow]
-    D <--> H[(Google Sheets: clients / appointment log)]
-    E --> H
-    F <--> I[(Google Calendar)]
-    G --> F
-    G --> J{Available?}
-    J -- Yes --> K[Create Google Calendar event]
-    J -- No --> L[Return booking_rejected_busy]
-    K --> M[Return booking_confirmed + event details]
-    M --> C
-    L --> C
-    C --> B
-    B --> A
+    A["Patient calls dental office"] --> B["Vapi Voice AI Assistant"]
+    B --> C["n8n MCP Server"]
+    C --> D["Lookup Patient Tool"]
+    D --> E["Google Sheets: Search Clients"]
+    E --> F{"Patient found?"}
+
+    F -->|No| G["Collect name, email, phone"]
+    G --> H["Create Client Tool"]
+    H --> I["Save patient in Google Sheets"]
+    I --> J["Request appointment date and time"]
+
+    F -->|Yes| J
+
+    J --> K["Check Availability Tool"]
+    K --> L["JavaScript: Validate appointment"]
+    L --> M{"Valid request?"}
+    M -->|No| N["Ask patient for valid time"]
+    N --> J
+    M -->|Yes| O["Google Calendar: Check conflicts"]
+    O --> P{"Slot available?"}
+
+    P -->|No| Q["Offer another appointment time"]
+    Q --> J
+    P -->|Yes| R["Patient agrees to book"]
+    R --> S["Book Appointment Tool"]
+    S --> T["Recheck availability"]
+    T --> U{"Still available?"}
+    U -->|No| Q
+    U -->|Yes| V["Google Calendar: Create event"]
+    V --> W{"Event created?"}
+    W -->|Yes| X["Return booking confirmation"]
+    W -->|No| Y["Report failure or escalate"]
+    X --> Z["Vapi confirms appointment to patient"]
+
+    classDef ai fill:#EDE7FF,stroke:#7C61D6,color:#30225B
+    classDef decision fill:#FFF0CF,stroke:#C58B22,color:#5E420C
+    classDef operation fill:#E4F2FF,stroke:#4286C6,color:#173C60
+    classDef success fill:#DFF5E9,stroke:#30966B,color:#19583E
+
+    class A,B,C,Z ai
+    class F,M,P,U,W decision
+    class D,E,G,H,I,J,K,L,N,O,Q,R,S,T,V,Y operation
+    class X success
+  
 ```
 
 The booking workflow calls the availability workflow **again** immediately before event creation. The standalone availability tool only checks a slot; it does not create a booking.
