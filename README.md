@@ -58,17 +58,11 @@ and conversational handling of unavailable slots.
  How AI Voice manage bookings in google calendar and in the CRM
 ## 📸 Vapi AI Receptionist — Live Test Screenshot
 
-
 The conversation demonstrates:
 - Recognition of an already-booked time
 - Sunday closure handling
 - Rejection of appointments before opening hours
 - Suggestions for alternative appointment times
-
--Project walkthrough  https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43
--Testing RAG system by Voice AI Receptionist  https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301
--Testing overlap scheduling  https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559
--Appointment Calendar Logging   https://www.loom.com/share/8344f1b3e26e45cfa45adcf1bfd1faa8
 
 **Technology Stack:** Vapi | n8n | MCP |
 JavaScript | Google Calendar | Google Sheets
