@@ -56,7 +56,7 @@ and conversational handling of unavailable slots.
 ### Demo 4 — Appointment Booking Automation
 [▶ Watch Demo 4 ](https://www.loom.com/share/8344f1b3e26e45cfa45adcf1bfd1faa8)
  How AI Voice manage bookings in google calendar and in the CRM
-## 📸 Vapi AI Receptionist — Live Test Screenshot
+## 📸 Vapi AI Receptionist 
 
 The conversation demonstrates:
 - Recognition of an already-booked time
