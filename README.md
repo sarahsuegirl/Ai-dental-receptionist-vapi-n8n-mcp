@@ -45,7 +45,7 @@ A walkthrough different parts of the Ai receptionist
 
 Demonstrates How AI can answer questions precisely when giving RAG systems
 
-### Demo 3 — Appointment Availability and Validation
+### Demo 3 — HOW AI Voice handles Overlapping Appointments 
 
 [▶ Watch Demo 3 on Loom](https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559)
 
