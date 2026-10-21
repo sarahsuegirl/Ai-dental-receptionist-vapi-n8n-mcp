@@ -35,27 +35,27 @@ workflow orchestration, and appointment management.
 
 ### Demo 1 — AI Voice Receptionist in Action
 
-[▶ Watch Demo 1 on Loom](https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43)
+[▶ Watch Demo 1 ](https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43)
 
 A walkthrough different parts of the Ai receptionist 
 
 ### Demo 2 — AI Voice & RAG
 
-[▶ Watch Demo 2 on Loom](https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301)
+[▶ Watch Demo 2 ](https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301)
 
 Demonstrates How AI can answer questions precisely when giving RAG systems
 
 ### Demo 3 — HOW AI Voice handles Overlapping Appointments 
 
-[▶ Watch Demo 3 on Loom](https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559)
+[▶ Watch Demo 3 ](https://www.loom.com/share/6450a83d64a44792938c44b8f53d7559)
 
 Highlights appointment availability checking,
 business-hours restrictions, conflict detection,
 and conversational handling of unavailable slots.
 
-### Demo 4 — Appointment Booking and Automation
-[▶ Watch Demo 4 on Loom]()
-
+### Demo 4 — Appointment Booking Automation
+[▶ Watch Demo 4 ](https://www.loom.com/share/8344f1b3e26e45cfa45adcf1bfd1faa8)
+ How AI Voice manage bookings in google calendar and in the CRM
 ## 📸 Vapi AI Receptionist — Live Test Screenshot
 
 
