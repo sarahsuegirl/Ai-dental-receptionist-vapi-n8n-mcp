@@ -39,14 +39,11 @@ workflow orchestration, and appointment management.
 
 A walkthrough different parts of the Ai receptionist 
 
-### Demo 2 — Patient Lookup and CRM Integration
+### Demo 2 — AI Voice & RAG
 
 [▶ Watch Demo 2 on Loom](https://www.loom.com/share/74889fe6161d49e682a99ccee84c2301)
 
-Demonstrates the intended integration between
-Vapi and n8n MCP tools for identifying patients
-and retrieving customer information from
-Google Sheets.
+Demonstrates How AI can answer questions precisely when giving RAG systems
 
 ### Demo 3 — Appointment Availability and Validation
 
