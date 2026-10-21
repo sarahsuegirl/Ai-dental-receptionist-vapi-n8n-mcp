@@ -37,10 +37,7 @@ workflow orchestration, and appointment management.
 
 [▶ Watch Demo 1 on Loom](https://www.loom.com/share/dd8753c96cc249cdafb33796f1432c43)
 
-A live demonstration of Emma, the AI receptionist,
-interacting with a caller through natural voice
-conversation and responding to appointment-related
-requests.
+A walkthrough different parts of the Ai receptionist 
 
 ### Demo 2 — Patient Lookup and CRM Integration
 
